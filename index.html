@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>genderize</title>
+</head>
+<style>
+    .box {
+        box-sizing: border-box;
+        width: 170px;
+        height: 21px;
+        margin: 5px 0;
+        border: 1px solid black;
+        border-radius: 2px;
+    }
+</style>
+<body>
+<form action="">
+    <input type="text" placeholder="Enter your name">
+    <button type="submit">Find out possible gender</button>
+</form>
+    <div class="box"></div>
+<script>
+    const isName = document.querySelector('input')
+    const sendName = document.querySelector('button')
+    const isContent = document.querySelector('div')
+    sendName.addEventListener('click', () => findGender(isName.value));
+    function findGender(firstName) {
+        const serverUrl = 'https://api.genderize.io';
+        const url = `${serverUrl}?name=${firstName}`;
+        const response = fetch(url);
+        const promise = response.then((response) => response.json())
+        const firstNameWithCapitalLetter = firstName[0].toUpperCase() + firstName.slice(1)
+        promise.then((result) => isContent.textContent = `${firstNameWithCapitalLetter}` + ' - ' + `${result.gender}`);
+        isName.value = '';
+        event.preventDefault();
+    }
+</script>
+</body>
+</html>
